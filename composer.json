@@ -2,7 +2,7 @@
     "name": "johnmarkderrama/sk-portal-php-custom-mvc",
     "autoload": {
         "psr-4": {
-            "Johnmarkderrama\\SkPortalPhpCustomMvc\\": "src/"
+            "App\\": "app/"
         }
     },
     "authors": [
