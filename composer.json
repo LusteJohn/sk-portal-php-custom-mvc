@@ -1,0 +1,18 @@
+{
+    "name": "johnmarkderrama/sk-portal-php-custom-mvc",
+    "autoload": {
+        "psr-4": {
+            "Johnmarkderrama\\SkPortalPhpCustomMvc\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "LusteJohn",
+            "email": "luste.johnmark19@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.6",
+        "nikic/fast-route": "^1.3"
+    }
+}
