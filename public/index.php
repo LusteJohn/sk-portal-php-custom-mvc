@@ -32,6 +32,9 @@ $router->post('/login', [AuthController::class, 'login']);
 $router->post('/register', [AuthController::class, 'register']);
 $router->get('/logout', [AuthController::class, 'logout']);
 
+// Dashboard Routes
+$router->get('/admin/dashboard', [HomeController::class, 'dashboard']);
+
 // Dispatch LAST
 $router->dispatch(
     $_SERVER['REQUEST_URI'],
