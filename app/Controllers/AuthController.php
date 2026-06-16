@@ -19,12 +19,10 @@ class AuthController
 
     public function login()
     {
-        session_start(); // ensure session is active
-
         $auth = new Auth();
 
-        $identifier = $_POST['email']; // can be email or username
-        $password = $_POST['password'];
+        $identifier = $_POST['identifier'] ?? ''; // can be email or username
+        $password = $_POST['password'] ?? '';
 
         $user = $auth->login($identifier, $password);
 
@@ -40,7 +38,7 @@ class AuthController
 
             // Redirect based on role
             if ($user['role'] === 'admin') {
-                header("Location: /admin");
+                header("Location: /admin/dashboard");
             } else {
                 header("Location: /dashboard");
             }
@@ -55,9 +53,9 @@ class AuthController
     {
         $db = Database::connect();
 
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $username = $_POST['username'] ?? '';
+        $email = $_POST['email'] ?? '';
+        $password = password_hash($_POST['password'] ?? '', PASSWORD_DEFAULT);
 
         $sql = "INSERT INTO users (username, email, password_hash)
                 VALUES (:username, :email, :password)";
@@ -76,7 +74,6 @@ class AuthController
 
     public function logout()
     {
-        session_start();
         session_destroy();
 
         header("Location: /login");
