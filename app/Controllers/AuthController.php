@@ -11,6 +11,11 @@ class AuthController
         require __DIR__ . '/../Views/auth/login.php';
     }
 
+    public function showRegister()
+    {
+        require __DIR__ . '/../Views/auth/register.php';
+    }
+
     public function login()
     {
         session_start(); // ensure session is active
@@ -43,6 +48,29 @@ class AuthController
         }
 
         echo "Invalid credentials";
+    }
+
+    public function register()
+    {
+        $db = Database::connect();
+
+        $username = $_POST['username'];
+        $email = $_POST['email'];
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO users (username, email, password_hash)
+                VALUES (:username, :email, :password)";
+
+        $stmt = $db->prepare($sql);
+
+        $stmt->execute([
+            'username' => $username,
+            'email' => $email,
+            'password' => $password
+        ]);
+
+        header("Location: /login");
+        exit;
     }
 
     public function logout()
