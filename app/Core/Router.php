@@ -2,6 +2,9 @@
 
 namespace App\Core;
 
+use Closure;
+use Exception;
+
 class Router
 {
     private array $routes = [];
@@ -28,9 +31,19 @@ class Router
             return;
         }
 
-        [$class, $function] = $handler;
+        // ✅ Handle Closure routes
+        if ($handler instanceof Closure) {
+            return $handler();
+        }
 
-        $controller = new $class();
-        $controller->$function();
+        // ✅ Handle Controller routes
+        if (is_array($handler)) {
+            [$class, $function] = $handler;
+
+            $controller = new $class();
+            return $controller->$function();
+        }
+
+        throw new Exception("Invalid route handler type");
     }
 }
