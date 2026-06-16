@@ -27,7 +27,9 @@ $router->get('/test-db', function () {
 });
 
 $router->get('/login', [AuthController::class, 'showLogin']);
+$router->get('/register', [AuthController::class, 'showRegister']);
 $router->post('/login', [AuthController::class, 'login']);
+$router->post('/register', [AuthController::class, 'register']);
 $router->get('/logout', [AuthController::class, 'logout']);
 
 // Dispatch LAST
