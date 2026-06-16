@@ -1,9 +1,11 @@
 <?php
+session_start();
 
 require __DIR__ . '/../vendor/autoload.php';
 
 use App\Core\Router;
 use App\Controllers\HomeController;
+use App\Controllers\AuthController;
 use App\Core\Database;
 
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
@@ -11,8 +13,8 @@ $dotenv->load();
 
 $router = new Router();
 
-// Home Route
-$router->get('/', [HomeController::class, 'index']);
+// Login Route
+$router->get('/', [AuthController::class, 'showLogin']);
 
 // Database Connection Test Route
 $router->get('/test-db', function () {
@@ -23,6 +25,10 @@ $router->get('/test-db', function () {
         echo $e->getMessage();
     }
 });
+
+$router->get('/login', [AuthController::class, 'showLogin']);
+$router->post('/login', [AuthController::class, 'login']);
+$router->get('/logout', [AuthController::class, 'logout']);
 
 // Dispatch LAST
 $router->dispatch(
