@@ -51,25 +51,24 @@ class AuthController
 
     public function register()
     {
-        $db = Database::connect();
+        $auth = new Auth();
 
         $username = $_POST['username'] ?? '';
         $email = $_POST['email'] ?? '';
-        $password = password_hash($_POST['password'] ?? '', PASSWORD_DEFAULT);
+        $password = $_POST['password'] ?? '';
 
-        $sql = "INSERT INTO users (username, email, password_hash)
-                VALUES (:username, :email, :password)";
+        // 🔐 ENCODE / HASH PASSWORD IN CONTROLLER
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $stmt = $db->prepare($sql);
+        // Send hashed password to model
+        $result = $auth->register($username, $email, $hashedPassword);
 
-        $stmt->execute([
-            'username' => $username,
-            'email' => $email,
-            'password' => $password
-        ]);
+        if ($result) {
+            header("Location: /login");
+            exit;
+        }
 
-        header("Location: /login");
-        exit;
+        echo "Registration failed";
     }
 
     public function logout()
