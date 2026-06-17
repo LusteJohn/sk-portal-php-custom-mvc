@@ -62,6 +62,16 @@ $router->post('/admin/election-setting/delete', function () {
     return $controller->delete();
 });
 
+$router->get('/admin/election-setting/edit', function () {
+    \App\Middleware\AdminMiddleware::handle();
+    (new \App\Controllers\SkElectionController())->edit();
+});
+
+$router->post('/admin/election-setting/update', function () {
+    \App\Middleware\AdminMiddleware::handle();
+    (new \App\Controllers\SkElectionController())->update();
+});
+
 // Dispatch LAST
 $router->dispatch(
     $_SERVER['REQUEST_URI'],
