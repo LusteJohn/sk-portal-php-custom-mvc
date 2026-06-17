@@ -7,7 +7,9 @@
 
 <h2>SK Election Configuration</h2>
 
+<!-- ========================= -->
 <!-- CREATE FORM -->
+<!-- ========================= -->
 <form method="POST" action="/admin/election-setting/store">
 
     <input type="text" name="election_year" placeholder="Election Year" required><br>
@@ -28,7 +30,9 @@
 
 <hr>
 
+<!-- ========================= -->
 <!-- LIST -->
+<!-- ========================= -->
 <h3>Existing Elections</h3>
 
 <table border="1">
@@ -61,15 +65,57 @@
                 <?= $e['voter_age_min'] ?> - <?= $e['voter_age_max'] ?>
             </td>
             <td>
-                <form method="POST" action="/admin/election-setting/delete">
+
+                <!-- EDIT BUTTON -->
+                <a href="/admin/election-setting/edit?id=<?= $e['election_id'] ?>">
+                    Edit
+                </a>
+
+                <!-- DELETE -->
+                <form method="POST" action="/admin/election-setting/delete" style="display:inline;">
                     <input type="hidden" name="election_id" value="<?= $e['election_id'] ?>">
                     <button type="submit">Delete</button>
                 </form>
+
             </td>
         </tr>
     <?php endforeach; ?>
 
 </table>
+
+<hr>
+
+<!-- ========================= -->
+<!-- UPDATE FORM (AUTO-FILLED) -->
+<!-- ========================= -->
+
+<?php if (isset($editElection)): ?>
+
+<h3>Update Election</h3>
+
+<form method="POST" action="/admin/election-setting/update">
+
+    <input type="hidden" name="election_id" value="<?= $editElection['election_id'] ?>">
+
+    <input type="text" name="election_year" value="<?= $editElection['election_year'] ?>" required><br>
+
+    <input type="text" name="barangay" value="<?= $editElection['barangay'] ?>" required><br>
+    <input type="text" name="municipality" value="<?= $editElection['municipality'] ?>" required><br>
+    <input type="text" name="province" value="<?= $editElection['province'] ?>" required><br>
+    <input type="text" name="region" value="<?= $editElection['region'] ?>" required><br>
+
+    <input type="text" name="status" value="<?= $editElection['status'] ?>" required><br>
+
+    <input type="number" name="chairman_seat" value="<?= $editElection['chairman_seat'] ?>" required><br>
+    <input type="number" name="councilor_seat" value="<?= $editElection['councilor_seat'] ?>" required><br>
+
+    <input type="number" name="voter_age_min" value="<?= $editElection['voter_age_min'] ?>" required><br>
+    <input type="number" name="voter_age_max" value="<?= $editElection['voter_age_max'] ?>" required><br>
+
+    <button type="submit">Update Election</button>
+</form>
+
+<?php endif; ?>
 
 </body>
 </html>

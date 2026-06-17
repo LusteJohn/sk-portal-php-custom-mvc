@@ -37,6 +37,47 @@ class SkElectionController
         exit;
     }
 
+    public function edit()
+    {
+        $model = new \App\Models\SkElection();
+
+        $id = $_GET['id'] ?? null;
+
+        if (!$id) {
+            echo "Invalid ID";
+            return;
+        }
+
+        $election = $model->getById($id);
+
+        require __DIR__ . '/../Views/admin/election-setting.php';
+    }
+
+    public function update()
+    {
+        $model = new \App\Models\SkElection();
+
+        $id = $_POST['election_id'];
+
+        $data = [
+            'election_year'   => $_POST['election_year'],
+            'barangay'        => $_POST['barangay'],
+            'municipality'    => $_POST['municipality'],
+            'province'        => $_POST['province'],
+            'region'          => $_POST['region'],
+            'status'          => $_POST['status'],
+            'chairman_seat'   => $_POST['chairman_seat'],
+            'councilor_seat'  => $_POST['councilor_seat'],
+            'voter_age_min'   => $_POST['voter_age_min'],
+            'voter_age_max'   => $_POST['voter_age_max'],
+        ];
+
+        $model->update($id, $data);
+
+        header("Location: /admin/election-setting.php");
+        exit;
+    }
+
     public function delete()
     {
         $model = new SkElection();

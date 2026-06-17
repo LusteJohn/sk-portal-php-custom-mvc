@@ -70,6 +70,51 @@ class SkElection
         return $this->db->query($sql)->fetchAll();
     }
 
+    public function getById($id)
+    {
+        $sql = "SELECT * FROM sk_election WHERE election_id = :id LIMIT 1";
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    public function update($id, $data)
+    {
+        $sql = "UPDATE sk_election SET
+                    election_year = :election_year,
+                    barangay = :barangay,
+                    municipality = :municipality,
+                    province = :province,
+                    region = :region,
+                    status = :status,
+                    chairman_seat = :chairman_seat,
+                    councilor_seat = :councilor_seat,
+                    voter_age_min = :voter_age_min,
+                    voter_age_max = :voter_age_max,
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE election_id = :id";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+
+        $stmt->bindParam(':election_year', $data['election_year']);
+        $stmt->bindParam(':barangay', $data['barangay']);
+        $stmt->bindParam(':municipality', $data['municipality']);
+        $stmt->bindParam(':province', $data['province']);
+        $stmt->bindParam(':region', $data['region']);
+        $stmt->bindParam(':status', $data['status']);
+        $stmt->bindParam(':chairman_seat', $data['chairman_seat'], \PDO::PARAM_INT);
+        $stmt->bindParam(':councilor_seat', $data['councilor_seat'], \PDO::PARAM_INT);
+        $stmt->bindParam(':voter_age_min', $data['voter_age_min'], \PDO::PARAM_INT);
+        $stmt->bindParam(':voter_age_max', $data['voter_age_max'], \PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
     // 🔹 DELETE (secure bindParam)
     public function delete($id)
     {
