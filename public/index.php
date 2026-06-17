@@ -6,6 +6,8 @@ require __DIR__ . '/../vendor/autoload.php';
 use App\Core\Router;
 use App\Controllers\HomeController;
 use App\Controllers\AuthController;
+use App\Controllers\SkElectionController;
+use App\Middleware\AdminMiddleware;
 use App\Core\Database;
 
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
@@ -34,6 +36,31 @@ $router->get('/logout', [AuthController::class, 'logout']);
 
 // Dashboard Routes
 $router->get('/admin/dashboard', [HomeController::class, 'dashboard']);
+
+// Admin Routes
+$router->get('/admin/election-setting', function () {
+
+    \App\Middleware\AdminMiddleware::handle();
+
+    $controller = new \App\Controllers\SkElectionController();
+    return $controller->index();
+});
+
+$router->post('/admin/election-setting/store', function () {
+
+    \App\Middleware\AdminMiddleware::handle();
+
+    $controller = new \App\Controllers\SkElectionController();
+    return $controller->store();
+});
+
+$router->post('/admin/election-setting/delete', function () {
+
+    \App\Middleware\AdminMiddleware::handle();
+
+    $controller = new \App\Controllers\SkElectionController();
+    return $controller->delete();
+});
 
 // Dispatch LAST
 $router->dispatch(

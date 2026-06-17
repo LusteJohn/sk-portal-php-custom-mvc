@@ -10,6 +10,9 @@
     Hello, <?= htmlspecialchars($_SESSION['user']['username'] ?? $_SESSION['user']['email']) ?>
 <?php endif; ?></p>
 
+<ul>
+    <li><a href="/admin/election-setting">Manage SK Elections</a></li>
+</ul>
 <a href="/logout">Logout</a>
 
 </body>
