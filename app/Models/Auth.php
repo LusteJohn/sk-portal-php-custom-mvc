@@ -34,4 +34,20 @@ class Auth
 
         return false;
     }
+
+    public function register($username, $email, $password)
+    {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO users (username, email, password_hash, role, is_active)
+                VALUES (:username, :email, :password_hash, 'viewer', TRUE)";
+
+        $stmt = $this->db->prepare($sql);
+
+        return $stmt->execute([
+            'username' => $username,
+            'email' => $email,
+            'password_hash' => $hashedPassword
+        ]);
+    }
 }
