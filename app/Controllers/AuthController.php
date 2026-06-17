@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Auth;
+use App\Models\Validator;
 use App\Core\Database;
 
 class AuthController
@@ -57,13 +58,22 @@ class AuthController
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
 
+        $result = Validator::validateRegister($username, $email, $password);
+
+        if (!$result['status']) {
+            foreach ($result['errors'] as $error) {
+                echo $error . "<br>";
+            }
+            return;
+        }
+
         // 🔐 ENCODE / HASH PASSWORD IN CONTROLLER
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // Send hashed password to model
-        $result = $auth->register($username, $email, $hashedPassword);
+        $success = $auth->register($username, $email, $hashedPassword);
 
-        if ($result) {
+        if ($success) {
             header("Location: /login");
             exit;
         }
