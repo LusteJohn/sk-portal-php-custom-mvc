@@ -8,6 +8,7 @@ use App\Controllers\HomeController;
 use App\Controllers\AuthController;
 use App\Controllers\SkElectionController;
 use App\Controllers\PartylistController;
+use App\Controllers\CandidateController;
 
 use App\Middleware\AdminMiddleware;
 use App\Core\Database;
@@ -97,6 +98,31 @@ $router->post('/admin/partylist/update', function () {
 $router->post('/admin/partylist/delete', function () {
     \App\Middleware\AdminMiddleware::handle();
     (new PartylistController())->delete();
+});
+
+$router->get('/admin/candidate', function () {
+    \App\Middleware\AdminMiddleware::handle();
+    (new CandidateController())->index();
+});
+
+$router->post('/admin/candidate/store', function () {
+    \App\Middleware\AdminMiddleware::handle();
+    (new CandidateController())->store();
+});
+
+$router->get('/admin/candidate/edit', function () {
+    \App\Middleware\AdminMiddleware::handle();
+    (new CandidateController())->edit();
+});
+
+$router->post('/admin/candidate/update', function () {
+    \App\Middleware\AdminMiddleware::handle();
+    (new CandidateController())->update();
+});
+
+$router->post('/admin/candidate/delete', function () {
+    \App\Middleware\AdminMiddleware::handle();
+    (new CandidateController())->delete();
 });
 
 // Dispatch LAST
