@@ -12,6 +12,7 @@
 
 <ul>
     <li><a href="/admin/election-setting">Manage SK Elections</a></li>
+    <li><a href="/admin/partylist">Manage Partylist</a></li>
 </ul>
 <a href="/logout">Logout</a>
 
