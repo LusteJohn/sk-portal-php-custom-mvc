@@ -49,7 +49,6 @@ class Candidate {
 
     public function create($data) {
         $sql = "INSERT INTO candidate (
-                    election_id,
                     partylist_id,
                     first_name,
                     middle_name,
@@ -64,7 +63,6 @@ class Candidate {
                     status
                 )
                 VALUES (
-                    :election_id,
                     :partylist_id,
                     :first_name,
                     :middle_name,
@@ -80,7 +78,6 @@ class Candidate {
                 )";
         $stmt = $this->db->prepare($sql);
 
-        $election_id = (int) $data['election_id'];
         $partylist_id = (int) $data['partylist_id'];
         $first_name = $this->clean($data['first_name']);
         $middle_name = $this->clean($data['middle_name']);
@@ -94,7 +91,6 @@ class Candidate {
         $isIncumbent = (bool) $data['isIncumbent'];
         $status = $this->clean($data['status']);
 
-        $stmt->bindParam(':election_id', $election_id, PDO::PARAM_INT);
         $stmt->bindParam(':partylist_id', $partylist_id, PDO::PARAM_INT);
         $stmt->bindParam(':first_name', $first_name, PDO::PARAM_STR);
         $stmt->bindParam(':middle_name', $middle_name, PDO::PARAM_STR);
@@ -113,7 +109,6 @@ class Candidate {
 
     public function update($id, $data) {
         $sql = "UPDATE candidate SET
-                    election_id = :election_id,
                     partylist_id = :partylist_id,
                     first_name = :first_name,
                     middle_name = :middle_name,
@@ -130,7 +125,6 @@ class Candidate {
 
         $stmt = $this->pdo->prepare($sql);
 
-        $election_id = (int) $data['election_id'];
         $partylist_id = (int) $data['partylist_id'];
         $first_name = $this->clean($data['first_name']);
         $middle_name = $this->clean($data['middle_name']);
@@ -145,7 +139,6 @@ class Candidate {
         $status = $this->clean($data['status']);
 
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->bindParam(':election_id', $election_id, PDO::PARAM_INT);
         $stmt->bindParam(':partylist_id', $partylist_id, PDO::PARAM_INT);
         $stmt->bindParam(':first_name', $first_name, PDO::PARAM_STR);
         $stmt->bindParam(':middle_name', $middle_name, PDO::PARAM_STR);
@@ -163,10 +156,10 @@ class Candidate {
     }
 
     public function delete($id) {
-        $sql = "DELETE FROM candidate WHERE id = :id";
+        $sql = "DELETE FROM candidate WHERE candidate_id = :candidate_id";
         $stmt = $this->db->prepare($sql);
 
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':candidate_id', $id, PDO::PARAM_INT);
 
         return $stmt->execute();
     }

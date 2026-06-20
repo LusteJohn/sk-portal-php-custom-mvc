@@ -10,7 +10,7 @@
 <!-- ===================== -->
 <!-- CREATE FORM -->
 <!-- ===================== -->
-<form method="POST" action="/admin/candidate/store">
+<form method="POST" action="/admin/candidate/store" enctype="multipart/form-data">
 
     <!-- Partylist Dropdown -->
     <label>Partylist</label><br>
@@ -47,7 +47,19 @@
     <br><br>
 
     <input type="date" name="birthdate" required><br>
-    <input type="text" name="photoUrl" placeholder="Photo URL"><br>
+    <?php if (!empty($editCandidate['photoUrl'])): ?>
+        <img
+            src="<?= $editCandidate['photoUrl'] ?>"
+            width="100"
+            alt="Candidate Photo">
+        <br>
+    <?php endif; ?>
+
+    <input type="file"
+       name="photoUrl"
+       accept="image/*"
+       required>
+    <br>
     <input type="text" name="address" placeholder="Address"><br>
 
     <label>
@@ -141,7 +153,7 @@
 
 <h3>Update Candidate</h3>
 
-<form method="POST" action="/admin/candidate/update">
+<form method="POST" action="/admin/candidate/update" enctype="multipart/form-data">
 
     <input type="hidden" name="candidate_id" value="<?= $editCandidate['candidate_id'] ?>">
 
@@ -175,7 +187,7 @@
     <br><br>
 
     <input type="date" name="birthdate" value="<?= $editCandidate['birthdate'] ?>"><br>
-    <input type="text" name="photoUrl" value="<?= $editCandidate['photoUrl'] ?>"><br>
+    <input type="file" name="photoUrl" accept="image/*"><br>
     <input type="text" name="address" value="<?= $editCandidate['address'] ?>"><br>
 
     <select name="status">

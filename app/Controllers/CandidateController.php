@@ -19,12 +19,46 @@ class CandidateController {
         require __DIR__ . '/../Views/admin/candidate.php';
     }
 
-    public function store() {
+    public function store()
+    {
         try {
+
             $model = new Candidate();
 
+            $photoPath = null;
+
+            if (
+                isset($_FILES['photo']) &&
+                $_FILES['photo']['error'] === UPLOAD_ERR_OK
+            ) {
+
+                $uploadDir = __DIR__ . '/../assets/sk_photo/';
+
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+
+                $extension = pathinfo(
+                    $_FILES['photo']['name'],
+                    PATHINFO_EXTENSION
+                );
+
+                $fileName =
+                    uniqid('candidate_') .
+                    '.' .
+                    strtolower($extension);
+
+                move_uploaded_file(
+                    $_FILES['photo']['tmp_name'],
+                    $uploadDir . $fileName
+                );
+
+                $photoPath =
+                    '/assets/sk_photo/' .
+                    $fileName;
+            }
+
             $data = [
-                'election_id' => $_POST['election_id'],
                 'partylist_id' => $_POST['partylist_id'],
                 'first_name' => $_POST['first_name'],
                 'middle_name' => $_POST['middle_name'],
@@ -33,7 +67,7 @@ class CandidateController {
                 'position' => $_POST['position'],
                 'gender' => $_POST['gender'],
                 'birthdate' => $_POST['birthdate'],
-                'photoUrl' => $_POST['photoUrl'],
+                'photoUrl' => $photoPath,
                 'address' => $_POST['address'],
                 'isIncumbent' => $_POST['isIncumbent'] ?? 0,
                 'status' => $_POST['status'] ?? 'pending'
@@ -43,8 +77,11 @@ class CandidateController {
 
             header('Location: /admin/candidate');
             exit;
+
         } catch (\Exception $e) {
+
             die($e->getMessage());
+
         }
     }
 
@@ -70,8 +107,36 @@ class CandidateController {
 
             $id = $_POST['candidate_id'];
 
+            $photoPath = $currentCandidate['photoUrl'];
+
+            if (
+                isset($_FILES['photo']) &&
+                $_FILES['photo']['error'] === UPLOAD_ERR_OK
+            ) {
+
+                $uploadDir = __DIR__ . '/../assets/sk_photo/';
+
+                $extension = pathinfo(
+                    $_FILES['photo']['name'],
+                    PATHINFO_EXTENSION
+                );
+
+                $fileName =
+                    uniqid('candidate_') .
+                    '.' .
+                    strtolower($extension);
+
+                move_uploaded_file(
+                    $_FILES['photo']['tmp_name'],
+                    $uploadDir . $fileName
+                );
+
+                $photoPath =
+                    '/assets/sk_photo/' .
+                    $fileName;
+            }
+
             $data = [
-                'election_id' => $_POST['election_id'],
                 'partylist_id' => $_POST['partylist_id'],
                 'first_name' => $_POST['first_name'],
                 'middle_name' => $_POST['middle_name'],
@@ -80,7 +145,7 @@ class CandidateController {
                 'position' => $_POST['position'],
                 'gender' => $_POST['gender'],
                 'birthdate' => $_POST['birthdate'],
-                'photoUrl' => $_POST['photoUrl'],
+                'photoUrl' => $photoPath,
                 'address' => $_POST['address'],
                 'isIncumbent' => $_POST['isIncumbent'] ?? 0,
                 'status' => $_POST['status']
