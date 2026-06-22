@@ -9,6 +9,7 @@ use App\Controllers\AuthController;
 use App\Controllers\SkElectionController;
 use App\Controllers\PartylistController;
 use App\Controllers\CandidateController;
+use App\Controllers\EducationController;
 
 use App\Middleware\AdminMiddleware;
 use App\Core\Database;
@@ -123,6 +124,31 @@ $router->post('/admin/candidate/update', function () {
 $router->post('/admin/candidate/delete', function () {
     \App\Middleware\AdminMiddleware::handle();
     (new CandidateController())->delete();
+});
+
+$router->get('/admin/education', function () {
+    \App\Middleware\AdminMiddleware::handle();
+    (new EducationController())->index();
+});
+
+$router->post('/admin/education/store', function () {
+    \App\Middleware\AdminMiddleware::handle();
+    (new EducationController())->store();
+});
+
+$router->get('/admin/education/edit', function () {
+    \App\Middleware\AdminMiddleware::handle();
+    (new EducationController())->edit();
+});
+
+$router->post('/admin/education/update', function () {
+    \App\Middleware\AdminMiddleware::handle();
+    (new EducationController())->update();
+});
+
+$router->post('/admin/education/delete', function () {
+    \App\Middleware\AdminMiddleware::handle();
+    (new EducationController())->delete();
 });
 
 // Dispatch LAST
