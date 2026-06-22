@@ -19,6 +19,72 @@ class CandidateController {
         require __DIR__ . '/../Views/admin/candidate.php';
     }
 
+    public function memberProfile()
+    {
+        $candidateModel = new Candidate();
+
+        $candidateId = $_SESSION['candidate_id'];
+
+        $candidate = $candidateModel->getById($candidateId);
+
+        require __DIR__ . '/../Views/member/profile.php';
+    }
+
+    public function memberUpdate()
+    {
+        try {
+
+            $model = new Candidate();
+
+            $candidateId = $_SESSION['candidate_id'];
+
+            $currentCandidate = $model->getById($candidateId);
+
+            $photoPath = $currentCandidate['photoUrl'];
+
+            if (
+                isset($_FILES['photoUrl']) &&
+                $_FILES['photoUrl']['error'] === UPLOAD_ERR_OK
+            ) {
+
+                $uploadDir = __DIR__ . '/../../public/assets/sk_photo/';
+
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+
+                $fileName = uniqid('candidate_') . '.' .
+                    pathinfo($_FILES['photoUrl']['name'], PATHINFO_EXTENSION);
+
+                move_uploaded_file(
+                    $_FILES['photoUrl']['tmp_name'],
+                    $uploadDir . $fileName
+                );
+
+                $photoPath = '/assets/sk_photo/' . $fileName;
+            }
+
+            $data = [
+                'first_name' => $_POST['first_name'],
+                'middle_name' => $_POST['middle_name'],
+                'last_name' => $_POST['last_name'],
+                'ext_name' => $_POST['ext_name'],
+                'gender' => $_POST['gender'],
+                'birthdate' => $_POST['birthdate'],
+                'address' => $_POST['address'],
+                'photoUrl' => $photoPath
+            ];
+
+            $model->updateProfile($candidateId, $data);
+
+            header('Location: /member/profile');
+            exit;
+
+        } catch (\Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
     public function store()
     {
         try {
