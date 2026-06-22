@@ -12,6 +12,8 @@ use App\Controllers\CandidateController;
 use App\Controllers\EducationController;
 
 use App\Middleware\AdminMiddleware;
+use App\Middleware\MemberMiddleware;
+
 use App\Core\Database;
 
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
@@ -149,6 +151,38 @@ $router->post('/admin/education/update', function () {
 $router->post('/admin/education/delete', function () {
     \App\Middleware\AdminMiddleware::handle();
     (new EducationController())->delete();
+});
+
+// for member routes
+
+$router->get('/member/profile', function () {
+    MemberMiddleware::handle();
+    (new CandidateController())->memberProfile();
+});
+
+$router->post('/member/profile/update', function () {
+    MemberMiddleware::handle();
+    (new CandidateController())->memberUpdate();
+});
+
+$router->get('/member/education', function () {
+    MemberMiddleware::handle();
+    (new EducationController())->memberEducation();
+});
+
+$router->post('/member/education/store', function () {
+    MemberMiddleware::handle();
+    (new EducationController())->memberStore();
+});
+
+$router->post('/member/education/update', function () {
+    MemberMiddleware::handle();
+    (new EducationController())->memberUpdate();
+});
+
+$router->post('/member/education/delete', function () {
+    MemberMiddleware::handle();
+    (new EducationController())->memberDelete();
 });
 
 // Dispatch LAST
