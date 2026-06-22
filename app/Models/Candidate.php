@@ -15,6 +15,7 @@ class Candidate {
 
     private function clean($value)
     {
+        $value = $value ?? '';
         return htmlspecialchars(strip_tags(trim($value)));
     }
 
@@ -85,9 +86,9 @@ class Candidate {
         $ext_name = $this->clean($data['ext_name']);
         $position = $this->clean($data['position']);
         $gender = $this->clean($data['gender']);
-        $birthdate = $this->clean($data['birthdate']);
-        $photoUrl = $this->clean($data['photoUrl']);
-        $address = $this->clean($data['address']);
+        $birthdate = $this->clean($data['birthdate'] ?? '');
+        $photoUrl = $this->clean($data['photoUrl'] ?? '');
+        $address = $this->clean($data['address'] ?? '');
         $isIncumbent = (bool) $data['isIncumbent'];
         $status = $this->clean($data['status']);
 
@@ -121,9 +122,9 @@ class Candidate {
                     address = :address,
                     isIncumbent = :isIncumbent,
                     status = :status
-                WHERE id = :id";
+                WHERE candidate_id = :id";
 
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->db->prepare($sql);
 
         $partylist_id = (int) $data['partylist_id'];
         $first_name = $this->clean($data['first_name']);
@@ -132,9 +133,9 @@ class Candidate {
         $ext_name = $this->clean($data['ext_name']);
         $position = $this->clean($data['position']);
         $gender = $this->clean($data['gender']);
-        $birthdate = $this->clean($data['birthdate']);
-        $photoUrl = $this->clean($data['photoUrl']);
-        $address = $this->clean($data['address']);
+        $birthdate = $this->clean($data['birthdate'] ?? '');
+        $photoUrl = $this->clean($data['photoUrl'] ?? '');
+        $address = $this->clean($data['address'] ?? '');
         $isIncumbent = (bool) $data['isIncumbent'];
         $status = $this->clean($data['status']);
 
