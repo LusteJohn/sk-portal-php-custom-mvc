@@ -56,9 +56,8 @@
     <?php endif; ?>
 
     <input type="file"
-       name="photoUrl"
-       accept="image/*"
-       required>
+        name="photoUrl"
+        accept="image/*">
     <br>
     <input type="text" name="address" placeholder="Address"><br>
 

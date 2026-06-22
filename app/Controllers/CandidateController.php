@@ -26,20 +26,19 @@ class CandidateController {
             $model = new Candidate();
 
             $photoPath = null;
-
             if (
-                isset($_FILES['photo']) &&
-                $_FILES['photo']['error'] === UPLOAD_ERR_OK
+                isset($_FILES['photoUrl']) &&
+                $_FILES['photoUrl']['error'] === UPLOAD_ERR_OK
             ) {
 
-                $uploadDir = __DIR__ . '/../assets/sk_photo/';
+                $uploadDir = __DIR__ . '/../../public/assets/sk_photo/';
 
                 if (!is_dir($uploadDir)) {
                     mkdir($uploadDir, 0777, true);
                 }
 
                 $extension = pathinfo(
-                    $_FILES['photo']['name'],
+                    $_FILES['photoUrl']['name'],
                     PATHINFO_EXTENSION
                 );
 
@@ -49,7 +48,7 @@ class CandidateController {
                     strtolower($extension);
 
                 move_uploaded_file(
-                    $_FILES['photo']['tmp_name'],
+                    $_FILES['photoUrl']['tmp_name'],
                     $uploadDir . $fileName
                 );
 
@@ -107,17 +106,18 @@ class CandidateController {
 
             $id = $_POST['candidate_id'];
 
-            $photoPath = $currentCandidate['photoUrl'];
+            $currentCandidate = $model->getById($id);
+            $photoPath = $currentCandidate['photoUrl'] ?? '';
 
             if (
-                isset($_FILES['photo']) &&
-                $_FILES['photo']['error'] === UPLOAD_ERR_OK
+                isset($_FILES['photoUrl']) &&
+                $_FILES['photoUrl']['error'] === UPLOAD_ERR_OK
             ) {
 
-                $uploadDir = __DIR__ . '/../assets/sk_photo/';
+                $uploadDir = __DIR__ . '/../../public/assets/sk_photo/';
 
                 $extension = pathinfo(
-                    $_FILES['photo']['name'],
+                    $_FILES['photoUrl']['name'],
                     PATHINFO_EXTENSION
                 );
 
@@ -127,7 +127,7 @@ class CandidateController {
                     strtolower($extension);
 
                 move_uploaded_file(
-                    $_FILES['photo']['tmp_name'],
+                    $_FILES['photoUrl']['tmp_name'],
                     $uploadDir . $fileName
                 );
 
@@ -148,7 +148,7 @@ class CandidateController {
                 'photoUrl' => $photoPath,
                 'address' => $_POST['address'],
                 'isIncumbent' => $_POST['isIncumbent'] ?? 0,
-                'status' => $_POST['status']
+                'status' => $_POST['status'] ?? 'pending'
             ];
 
             $model->update($id, $data);
