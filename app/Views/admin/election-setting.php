@@ -82,6 +82,7 @@
     <?php endforeach; ?>
 
 </table>
+<a href="/admin/dashboard">Back to Dashboard</a>
 
 <hr>
 
