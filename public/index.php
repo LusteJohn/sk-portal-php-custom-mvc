@@ -40,8 +40,10 @@ $router->post('/login', [AuthController::class, 'login']);
 $router->post('/register', [AuthController::class, 'register']);
 $router->get('/logout', [AuthController::class, 'logout']);
 
-// Dashboard Routes
+// Users Routes
 $router->get('/admin/dashboard', [HomeController::class, 'dashboard']);
+$router->get('/member/dashboard', [HomeController::class, 'memberDashboard']);
+$router->get('/viewer/dashboard', [HomeController::class, 'viewerDashboard']);
 
 // Admin Routes
 $router->get('/admin/election-setting', function () {
