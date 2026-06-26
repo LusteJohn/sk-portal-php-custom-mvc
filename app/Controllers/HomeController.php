@@ -20,4 +20,12 @@ class HomeController extends Controller
     {
         $this->view('admin/dashboard');
     }
+    public function memberDashboard()
+    {
+        $this->view('member/dashboard');
+    }
+    public function viewerDashboard()
+    {
+        $this->view('viewer/dashboard');
+    }
 }
