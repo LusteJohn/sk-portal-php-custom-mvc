@@ -50,6 +50,7 @@ class Candidate {
 
     public function create($data) {
         $sql = "INSERT INTO candidate (
+                    user_id,
                     partylist_id,
                     first_name,
                     middle_name,
@@ -64,6 +65,7 @@ class Candidate {
                     status
                 )
                 VALUES (
+                    :user_id,
                     :partylist_id,
                     :first_name,
                     :middle_name,
@@ -79,6 +81,7 @@ class Candidate {
                 )";
         $stmt = $this->db->prepare($sql);
 
+        $user_id = (int) $data['user_id'];
         $partylist_id = (int) $data['partylist_id'];
         $first_name = $this->clean($data['first_name']);
         $middle_name = $this->clean($data['middle_name']);
@@ -92,6 +95,7 @@ class Candidate {
         $isIncumbent = (bool) $data['isIncumbent'];
         $status = $this->clean($data['status']);
 
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->bindParam(':partylist_id', $partylist_id, PDO::PARAM_INT);
         $stmt->bindParam(':first_name', $first_name, PDO::PARAM_STR);
         $stmt->bindParam(':middle_name', $middle_name, PDO::PARAM_STR);

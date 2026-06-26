@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Candidate;
 use App\Models\Partylist;
 use App\Models\SkElection;
+use App\Models\Auth;
 
 class CandidateController {
     public function index() {
@@ -90,6 +91,7 @@ class CandidateController {
         try {
 
             $model = new Candidate();
+            $authModel = new Auth();
 
             $photoPath = null;
             if (
@@ -123,7 +125,14 @@ class CandidateController {
                     $fileName;
             }
 
+            $userId = $authModel->register(
+                $_POST['username'],
+                $_POST['email'],
+                $_POST['password']
+            );
+
             $data = [
+                'user_id' => $userId,
                 'partylist_id' => $_POST['partylist_id'],
                 'first_name' => $_POST['first_name'],
                 'middle_name' => $_POST['middle_name'],

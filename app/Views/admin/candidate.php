@@ -76,6 +76,28 @@
 
     <br><br>
 
+    <h3>Login Account</h3>
+        <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            required>
+
+        <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            required>
+
+        <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required>
+
+        <hr>
+    <br><br>
+
     <button type="submit">Create Candidate</button>
 </form>
 
