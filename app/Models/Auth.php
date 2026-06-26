@@ -35,19 +35,22 @@ class Auth
         return false;
     }
 
+    // for registering new users, especially candidates
     public function register($username, $email, $password)
     {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         $sql = "INSERT INTO users (username, email, password_hash, role, is_active)
-                VALUES (:username, :email, :password_hash, 'viewer', TRUE)";
+                VALUES (:username, :email, :password_hash, 'member', TRUE)";
 
         $stmt = $this->db->prepare($sql);
 
-        return $stmt->execute([
+        $stmt->execute([
             'username' => $username,
             'email' => $email,
             'password_hash' => $hashedPassword
         ]);
+
+        return $this->db->lastInsertId();
     }
 }
