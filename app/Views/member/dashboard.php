@@ -6,11 +6,13 @@
     <title>Document</title>
 </head>
 <body>
-    h1>Welcome to your Dashboard</h1>
+    <h1>Welcome to your Dashboard</h1>
     <p><?php if (isset($_SESSION['user'])): ?>
         Hello, <?= htmlspecialchars($_SESSION['user']['username'] ?? $_SESSION['user']['email']) ?>
     <?php endif; ?></p>
     <a href="/member/profile">Manage Candidates</a>
+    <br><br>
+    <a href="/member/candidate-profile">My Platform</a>
     <br><br>
     <a href="/logout">Logout</a>
 
