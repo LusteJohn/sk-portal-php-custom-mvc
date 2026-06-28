@@ -157,14 +157,19 @@ $router->post('/admin/education/delete', function () {
 
 // for member routes
 
-$router->get('/member/profile', function () {
+$router->get('/member/candidate-member', function () {
     MemberMiddleware::handle();
     (new CandidateController())->memberProfile();
 });
 
-$router->post('/member/profile/update', function () {
+$router->post('/member/candidate/update', function () {
     MemberMiddleware::handle();
     (new CandidateController())->memberUpdate();
+});
+
+$router->post('/member/candidate/delete', function () {
+    MemberMiddleware::handle();
+    (new CandidateController())->memberDelete();
 });
 
 $router->get('/member/education', function () {

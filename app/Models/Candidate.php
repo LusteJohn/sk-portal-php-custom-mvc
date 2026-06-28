@@ -33,15 +33,15 @@ class Candidate {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getById($id)
+    public function getById($candidate_id)
     {
         $sql = "SELECT * FROM candidate
-                WHERE candidate_id = :id
+                WHERE candidate_id = :candidate_id
                 LIMIT 1";
 
         $stmt = $this->db->prepare($sql);
 
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':candidate_id', $candidate_id, PDO::PARAM_INT);
 
         $stmt->execute();
 
@@ -156,6 +156,52 @@ class Candidate {
         $stmt->bindParam(':address', $address, PDO::PARAM_STR);
         $stmt->bindParam(':isIncumbent', $isIncumbent, PDO::PARAM_BOOL);
         $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    public function getByUserId($userId)
+    {
+        $sql = "SELECT * FROM candidate WHERE user_id = :user_id LIMIT 1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updateProfile($id, $data)
+    {
+        $sql = "UPDATE candidate SET
+                        first_name = :first_name,
+                        middle_name = :middle_name,
+                        last_name = :last_name,
+                        ext_name = :ext_name,
+                        gender = :gender,
+                        birthdate = :birthdate,
+                        address = :address,
+                        photoUrl = :photoUrl
+                    WHERE user_id = :id";
+
+        $stmt = $this->db->prepare($sql);
+
+        $first_name = $this->clean($data['first_name']);
+        $middle_name = $this->clean($data['middle_name']);
+        $last_name = $this->clean($data['last_name']);
+        $ext_name = $this->clean($data['ext_name']);
+        $gender = $this->clean($data['gender']);
+        $birthdate = $this->clean($data['birthdate'] ?? '');
+        $address = $this->clean($data['address'] ?? '');
+        $photoUrl = $this->clean($data['photoUrl'] ?? '');
+
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':first_name', $first_name, PDO::PARAM_STR);
+        $stmt->bindParam(':middle_name', $middle_name, PDO::PARAM_STR);
+        $stmt->bindParam(':last_name', $last_name, PDO::PARAM_STR);
+        $stmt->bindParam(':ext_name', $ext_name, PDO::PARAM_STR);
+        $stmt->bindParam(':gender', $gender, PDO::PARAM_STR);
+        $stmt->bindParam(':birthdate', $birthdate, PDO::PARAM_STR);
+        $stmt->bindParam(':address', $address, PDO::PARAM_STR);
+        $stmt->bindParam(':photoUrl', $photoUrl, PDO::PARAM_STR);
 
         return $stmt->execute();
     }
