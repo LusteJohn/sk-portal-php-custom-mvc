@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Candidate;
+use App\Models\CandidateProfile;
 use App\Models\Partylist;
 use App\Models\SkElection;
 use App\Models\Auth;
@@ -86,7 +87,7 @@ public function memberUpdate()
 
             $model->updateProfile($userId, $data);
 
-            header('Location: /member/candidate-member');
+            header('Location: /member/profile');
             exit;
 
         } catch (\Exception $e) {

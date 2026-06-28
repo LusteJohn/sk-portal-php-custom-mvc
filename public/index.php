@@ -10,6 +10,7 @@ use App\Controllers\SkElectionController;
 use App\Controllers\PartylistController;
 use App\Controllers\CandidateController;
 use App\Controllers\EducationController;
+use App\Controllers\CandidateProfileController;
 
 use App\Middleware\AdminMiddleware;
 use App\Middleware\MemberMiddleware;
@@ -170,6 +171,17 @@ $router->post('/member/candidate/update', function () {
 $router->post('/member/candidate/delete', function () {
     MemberMiddleware::handle();
     (new CandidateController())->memberDelete();
+});
+
+// Candidate Profile Routes
+$router->get('/member/candidate-profile', function () {
+    MemberMiddleware::handle();
+    (new CandidateProfileController())->memberProfileView();
+});
+
+$router->post('/member/candidate-profile/store', function () {
+    MemberMiddleware::handle();
+    (new CandidateProfileController())->memberProfileStore();
 });
 
 $router->get('/member/education', function () {
