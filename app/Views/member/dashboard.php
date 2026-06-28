@@ -14,6 +14,8 @@
     <br><br>
     <a href="/member/candidate-profile">My Platform</a>
     <br><br>
+    <a href="/member/candidate-programs">My Programs</a>
+    <br><br>
     <a href="/logout">Logout</a>
 
 </body>
