@@ -10,6 +10,9 @@
     <p><?php if (isset($_SESSION['user'])): ?>
         Hello, <?= htmlspecialchars($_SESSION['user']['username'] ?? $_SESSION['user']['email']) ?>
     <?php endif; ?></p>
+    <a href="/member/profile">Manage Candidates</a>
+    <br><br>
     <a href="/logout">Logout</a>
+
 </body>
 </html>

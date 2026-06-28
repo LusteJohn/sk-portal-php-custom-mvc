@@ -24,24 +24,32 @@ class CandidateController {
     {
         $candidateModel = new Candidate();
 
-        $candidateId = $_SESSION['candidate_id'];
+        $userId = $_SESSION['user']['id'] ?? null;
 
-        $candidate = $candidateModel->getById($candidateId);
+        if (!$userId) {
+            header('Location: /login');
+            exit;
+        }
 
-        require __DIR__ . '/../Views/member/profile.php';
+        $candidates = $candidateModel->getByUserId($userId);
+
+        require __DIR__ . '/../Views/member/candidate-member.php';
     }
 
-    public function memberUpdate()
+public function memberUpdate()
     {
         try {
-
             $model = new Candidate();
 
-            $candidateId = $_SESSION['candidate_id'];
+            $userId = $_SESSION['user']['id'] ?? null;
 
-            $currentCandidate = $model->getById($candidateId);
+            if (!$userId) {
+                header('Location: /login');
+                exit;
+            }
 
-            $photoPath = $currentCandidate['photoUrl'];
+            $currentCandidate = $model->getByUserId($userId);
+            $photoPath = $currentCandidate['photoUrl'] ?? '/assets/sk_photo/placeholder.jpg';
 
             if (
                 isset($_FILES['photoUrl']) &&
@@ -76,9 +84,9 @@ class CandidateController {
                 'photoUrl' => $photoPath
             ];
 
-            $model->updateProfile($candidateId, $data);
+            $model->updateProfile($userId, $data);
 
-            header('Location: /member/profile');
+            header('Location: /member/candidate-member');
             exit;
 
         } catch (\Exception $e) {
@@ -93,7 +101,7 @@ class CandidateController {
             $model = new Candidate();
             $authModel = new Auth();
 
-            $photoPath = null;
+            $photoPath = '/assets/sk_photo/placeholder.jpg';
             if (
                 isset($_FILES['photoUrl']) &&
                 $_FILES['photoUrl']['error'] === UPLOAD_ERR_OK
@@ -182,7 +190,7 @@ class CandidateController {
             $id = $_POST['candidate_id'];
 
             $currentCandidate = $model->getById($id);
-            $photoPath = $currentCandidate['photoUrl'] ?? '';
+            $photoPath = $currentCandidate['photoUrl'] ?? '/assets/sk_photo/placeholder.jpg';
 
             if (
                 isset($_FILES['photoUrl']) &&
@@ -244,6 +252,22 @@ class CandidateController {
             $model->delete($id);
 
             header('Location: /admin/candidate');
+            exit;
+        } catch (\Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    public function memberDelete()
+    {
+        try {
+            $model = new Candidate();
+
+            $candidateId = $_POST['candidate_id'];
+
+            $model->delete($candidateId);
+
+            header('Location: /member/profile');
             exit;
         } catch (\Exception $e) {
             die($e->getMessage());
