@@ -39,6 +39,7 @@
         <button type="submit">Save Profile</button>
     </form>
 
+    <a href="/member/dashboard">Back to Dashboard</a>
     <br><br>
     <a href="/logout">Logout</a>
 

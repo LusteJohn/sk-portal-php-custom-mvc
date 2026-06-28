@@ -11,6 +11,7 @@ use App\Controllers\PartylistController;
 use App\Controllers\CandidateController;
 use App\Controllers\EducationController;
 use App\Controllers\CandidateProfileController;
+use App\Controllers\CandidateProgramController;
 
 use App\Middleware\AdminMiddleware;
 use App\Middleware\MemberMiddleware;
@@ -182,6 +183,17 @@ $router->get('/member/candidate-profile', function () {
 $router->post('/member/candidate-profile/store', function () {
     MemberMiddleware::handle();
     (new CandidateProfileController())->memberProfileStore();
+});
+
+// Candidate Program Routes
+$router->get('/member/candidate-programs', function () {
+    MemberMiddleware::handle();
+    (new CandidateProgramController())->memberProgramView();
+});
+
+$router->post('/member/candidate-programs/store', function () {
+    MemberMiddleware::handle();
+    (new CandidateProgramController())->memberProgramStore();
 });
 
 $router->get('/member/education', function () {
