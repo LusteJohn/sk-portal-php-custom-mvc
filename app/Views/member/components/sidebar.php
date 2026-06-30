@@ -13,6 +13,12 @@
         </li>
 
         <li>
+            <a href="/member/candidate-member">
+                Profile
+            </a>
+        </li>
+
+        <li>
             <a href="/member/candidate-profile">
                 My Candidate Profile
             </a>
