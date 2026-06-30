@@ -3,146 +3,155 @@ $title = "Candidate Profile";
 require __DIR__ . "/components/layout.php";
 ?>
 
-<div class="flex items-center justify-between mb-6">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
 
     <div>
-        <h1 class="text-3xl font-bold">Candidate Profile</h1>
-        <p class="text-base-content/70">
-            Manage your platform and advocacies.
+        <h1 class="text-4xl font-bold">Campaign Platform</h1>
+        <p class="text-base-content/70 mt-2">
+            Showcase your vision, advocacies, and priorities for the community.
         </p>
     </div>
 
     <button
-        class="btn btn-primary"
+        class="btn btn-primary btn-wide"
         onclick="profile_modal.showModal()">
 
-        <?= empty($profile) ? 'Add Profile' : 'Edit Profile' ?>
+        <?= empty($profile) ? 'Create Campaign' : 'Edit Campaign' ?>
 
     </button>
 
 </div>
 
-<div class="card bg-base-100 shadow-xl">
 
-    <div class="card-body">
+<!-- Featured Campaign Slogan -->
 
-        <div class="flex justify-between items-center">
+<div class="hero rounded-box bg-primary text-primary-content shadow-xl">
 
-            <div>
+    <div class="hero-content text-center py-12">
 
-                <h2 class="card-title text-2xl">
+        <div>
 
-                    <?= htmlspecialchars(
-                        $_SESSION['user']['username']
-                        ?? $_SESSION['user']['email']
-                    ) ?>
-
-                </h2>
-
-                <p class="text-base-content/60">
-                    Candidate Information
-                </p>
-
+            <div class="badge badge-lg badge-secondary mb-4">
+                CAMPAIGN SLOGAN
             </div>
 
-            <div class="avatar placeholder">
+            <h2 class="text-4xl font-bold">
 
-                <div class="bg-primary text-primary-content rounded-full w-20">
+                <?= !empty($profile['slogan'])
+                    ? '"' . htmlspecialchars($profile['slogan']) . '"'
+                    : 'No Campaign Slogan Yet'; ?>
 
-                    <span class="text-3xl">
-
-                        <?= strtoupper(substr(
-                            $_SESSION['user']['username']
-                            ?? $_SESSION['user']['email'],
-                            0,
-                            1
-                        )) ?>
-
-                    </span>
-
-                </div>
-
-            </div>
+            </h2>
 
         </div>
 
-        <div class="divider"></div>
+    </div>
 
-        <div class="space-y-6">
+</div>
 
-            <div>
 
-                <h3 class="font-bold text-lg">
-                    Platform Summary
-                </h3>
+<div class="grid lg:grid-cols-3 gap-6 mt-8">
 
-                <div class="bg-base-200 rounded-lg p-4 mt-2">
+    <div class="card bg-base-100 shadow-lg border border-base-300">
 
-                    <?= !empty($profile['platform_summary'])
-                        ? nl2br(htmlspecialchars($profile['platform_summary']))
-                        : '<span class="text-gray-400">No information available.</span>'; ?>
+        <div class="card-body">
 
-                </div>
+            <div class="text-primary text-3xl">📖</div>
 
-            </div>
+            <h2 class="card-title">
+                Platform Summary
+            </h2>
 
-            <div>
+            <p class="leading-8 text-base-content/80">
 
-                <h3 class="font-bold text-lg">
-                    Key Advocacies
-                </h3>
+                <?= !empty($profile['platform_summary'])
+                    ? nl2br(htmlspecialchars($profile['platform_summary']))
+                    : 'No platform summary available.'; ?>
 
-                <div class="bg-base-200 rounded-lg p-4 mt-2">
+            </p>
 
-                    <?= !empty($profile['key_advocacies'])
-                        ? nl2br(htmlspecialchars($profile['key_advocacies']))
-                        : '<span class="text-gray-400">No information available.</span>'; ?>
+        </div>
 
-                </div>
+    </div>
 
-            </div>
 
-            <div>
+    <div class="card bg-base-100 shadow-lg border border-base-300">
 
-                <h3 class="font-bold text-lg">
-                    Priority Issues
-                </h3>
+        <div class="card-body">
 
-                <div class="bg-base-200 rounded-lg p-4 mt-2">
+            <div class="text-success text-3xl">🌱</div>
 
-                    <?= !empty($profile['priority_issues'])
-                        ? nl2br(htmlspecialchars($profile['priority_issues']))
-                        : '<span class="text-gray-400">No information available.</span>'; ?>
+            <h2 class="card-title">
+                Key Advocacies
+            </h2>
 
-                </div>
+            <p class="leading-8 text-base-content/80">
 
-            </div>
+                <?= !empty($profile['key_advocacies'])
+                    ? nl2br(htmlspecialchars($profile['key_advocacies']))
+                    : 'No advocacies added yet.'; ?>
 
-            <div>
+            </p>
 
-                <h3 class="font-bold text-lg">
-                    Campaign Slogan
-                </h3>
+        </div>
 
-                <div class="mt-2">
+    </div>
 
-                    <?php if (!empty($profile['slogan'])): ?>
 
-                        <div class="badge badge-primary badge-lg">
+    <div class="card bg-base-100 shadow-lg border border-base-300">
 
-                            <?= htmlspecialchars($profile['slogan']) ?>
+        <div class="card-body">
 
-                        </div>
+            <div class="text-warning text-3xl">🎯</div>
 
-                    <?php else: ?>
+            <h2 class="card-title">
+                Priority Issues
+            </h2>
 
-                        <span class="text-gray-400">
-                            No slogan available.
-                        </span>
+            <p class="leading-8 text-base-content/80">
 
-                    <?php endif; ?>
+                <?= !empty($profile['priority_issues'])
+                    ? nl2br(htmlspecialchars($profile['priority_issues']))
+                    : 'No priority issues listed.'; ?>
 
-                </div>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="mt-8">
+
+    <div class="alert">
+
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="stroke-current shrink-0 h-6 w-6"
+             fill="none"
+             viewBox="0 0 24 24">
+
+            <path stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21
+                  12a9 9 0 11-18
+                  0 9 9 0 0118 0z" />
+
+        </svg>
+
+        <div>
+
+            <h3 class="font-bold">
+                Campaign Overview
+            </h3>
+
+            <div class="text-sm">
+
+                This information will be presented to voters to help them
+                understand your platform, advocacies, and priorities during
+                the election.
 
             </div>
 
@@ -151,7 +160,6 @@ require __DIR__ . "/components/layout.php";
     </div>
 
 </div>
-
 
 <dialog id="profile_modal" class="modal">
 
