@@ -12,6 +12,7 @@ use App\Controllers\CandidateController;
 use App\Controllers\EducationController;
 use App\Controllers\CandidateProfileController;
 use App\Controllers\CandidateProgramController;
+use App\Controllers\CandidateSessionController;
 
 use App\Middleware\AdminMiddleware;
 use App\Middleware\MemberMiddleware;
@@ -196,9 +197,15 @@ $router->post('/member/candidate-programs/store', function () {
     (new CandidateProgramController())->memberProgramStore();
 });
 
-$router->get('/member/education', function () {
+// Candidate Session Routes
+$router->get('/member/candidate-sessions', function () {
     MemberMiddleware::handle();
-    (new EducationController())->memberEducation();
+    (new CandidateSessionController())->memberSessionView();
+});
+
+$router->post('/member/candidate-sessions/store', function () {
+    MemberMiddleware::handle();
+    (new CandidateSessionController())->memberSessionStore();
 });
 
 $router->post('/member/education/store', function () {

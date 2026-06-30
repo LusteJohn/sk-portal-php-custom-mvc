@@ -16,6 +16,8 @@
     <br><br>
     <a href="/member/candidate-programs">My Programs</a>
     <br><br>
+    <a href="/member/candidate-sessions">My Sessions</a>
+    <br><br>
     <a href="/logout">Logout</a>
 
 </body>
