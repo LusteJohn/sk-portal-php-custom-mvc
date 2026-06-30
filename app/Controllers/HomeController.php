@@ -18,7 +18,7 @@ class HomeController extends Controller
 
     public function dashboard()
     {
-        $this->view('dashboard');
+        $this->view('admin/dashboard');
     }
     public function memberDashboard()
     {
